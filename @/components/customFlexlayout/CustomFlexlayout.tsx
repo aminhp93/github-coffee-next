@@ -39,7 +39,11 @@ const CustomFlexLayout = ({
   // const [realtimeResize, setRealtimeResize] = useState(false);
   const [openDrawer, setOpenDrawer] = useState(false);
 
-  const savedLayout = localStorage.getItem(layoutName);
+  let savedLayout;
+  if (typeof window !== "undefined") {
+    savedLayout = localStorage.getItem(layoutName);
+  }
+
   let json = defaultJson;
 
   if (savedLayout) {
@@ -93,13 +97,17 @@ const CustomFlexLayout = ({
   };
 
   const handleChangeLayout = () => {
-    localStorage.removeItem(layoutName);
-    window.location.reload();
+    if (typeof window !== "undefined") {
+      window.localStorage.removeItem(layoutName);
+      window.location.reload();
+    }
   };
 
   const handleOnModelChange = (data: any) => {
-    localStorage.removeItem(layoutName);
-    localStorage.setItem(layoutName, JSON.stringify(data.toJson()));
+    if (typeof window !== "undefined") {
+      window.localStorage.removeItem(layoutName);
+      window.localStorage.setItem(layoutName, JSON.stringify(data.toJson()));
+    }
   };
 
   const handleSelectLayout = (value: string) => {
